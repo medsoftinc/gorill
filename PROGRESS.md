@@ -20,3 +20,4 @@
 | 023 | 2026-10-25 | Site described as data: `config/site.yaml` (boundary, panel rows, survey altitude/speed, camera FOV) |
 | 024 | 2026-10-25 | Lawnmower route generator `scripts/rota.py` → `missions/ges_tarama.plan` (QGC) + route image |
 | 025 | 2026-10-25 | Flew the survey route from code: `scripts/tarama.py` (offboard, 2 m/s, 1 m arrival tolerance, 12/12 waypoints, then RTL) |
+| 026 | 2026-10-25 | Position-tagged survey photos: `kamera_kayit.py` saves a frame every ~2.8 s (70 % overlap from altitude + FOV) with north/east/alt in filename and `frames.csv`; hot-spot seen at N10.0 E-1.8 |
