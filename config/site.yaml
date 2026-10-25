@@ -1,0 +1,21 @@
+# Solar site description (PX4 local frame, metres: north, east; origin = drone home)
+name: ges_site
+boundary:            # site polygon corners [north, east]
+  - [5.0, -12.0]
+  - [45.0, -12.0]
+  - [45.0, 12.0]
+  - [5.0, 12.0]
+rows:                # panel row centre lines
+  north: [10.0, 16.0, 22.0, 28.0, 34.0, 40.0]
+  east_start: -10.0
+  east_end: 10.0
+  top_height: 1.5    # panel top above ground
+survey:
+  altitude: 8.0      # metres above ground
+  speed: 2.0         # m/s
+  end_margin: 2.0    # fly this far past row ends
+  forward_overlap: 0.7
+camera:              # PX4 mono_cam: 1280x960, horizontal FOV 1.74 rad
+  hfov_rad: 1.74
+  width: 1280
+  height: 960
