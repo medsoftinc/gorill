@@ -19,3 +19,5 @@ camera:              # PX4 mono_cam: 1280x960, horizontal FOV 1.74 rad
   hfov_rad: 1.74
   width: 1280
   height: 960
+safety:
+  rtl_battery: 0.30  # go home when battery drops below 30 % (PX4's own failsafe acts much later, at 7 %)

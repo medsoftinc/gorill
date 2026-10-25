@@ -1,7 +1,7 @@
 import math
 import rclpy
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
-from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleOdometry
+from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleOdometry, BatteryStatus
 from rota import rota, site
 
 rclpy.init()
@@ -12,6 +12,7 @@ hedef_pub = node.create_publisher(TrajectorySetpoint, "/fmu/in/trajectory_setpoi
 komut_pub = node.create_publisher(VehicleCommand, "/fmu/in/vehicle_command", qos)
 
 YUKSEKLIK, HIZ, TOLERANS = site["survey"]["altitude"], site["survey"]["speed"], 1.0
+PIL_SINIRI = site["safety"]["rtl_battery"]
 noktalar = [[0.0, 0.0, -YUKSEKLIK]] + rota()   # first climb above home, then the lawnmower route
 sira = 0
 havuc = [0.0, 0.0, -YUKSEKLIK]                  # setpoint that slides toward the waypoint at HIZ m/s
@@ -29,6 +30,13 @@ def komut(kod, p1=0.0, p2=0.0):
 def odometri(msg):
     global konum
     konum = list(msg.position)
+
+def batarya(msg):
+    global bitti
+    if not bitti and 0 <= msg.remaining < PIL_SINIRI:
+        komut(VehicleCommand.VEHICLE_CMD_NAV_RETURN_TO_LAUNCH)
+        print(f"Batarya %{msg.remaining * 100:.0f}: tarama yarida kesildi, eve donuyor (RTL). Tamamlanan nokta: {max(sira - 1, 0)}/{len(noktalar) - 1}")
+        bitti = True
 
 def her_100ms():
     global sira, sayac, bitti
@@ -56,6 +64,8 @@ def her_100ms():
             bitti = True
 
 node.create_subscription(VehicleOdometry, "/fmu/out/vehicle_odometry", odometri,
+                         QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
+node.create_subscription(BatteryStatus, "/fmu/out/battery_status_v1", batarya,
                          QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
 node.create_timer(0.1, her_100ms)
 rclpy.spin(node)
