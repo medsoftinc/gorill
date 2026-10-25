@@ -2,7 +2,7 @@ import math
 import os
 import rclpy
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
-from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleOdometry, BatteryStatus
+from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleOdometry, BatteryStatus, VehicleStatus
 from rota import rota, site
 
 rclpy.init()
@@ -20,6 +20,7 @@ havuc = [0.0, 0.0, -YUKSEKLIK]                  # setpoint that slides toward th
 konum = None
 sayac = 0
 bitti = False
+ucustu, indi = False, False   # armed once / landed and disarmed after the mission
 
 def zaman():
     return node.get_clock().now().nanoseconds // 1000
@@ -68,5 +69,16 @@ node.create_subscription(VehicleOdometry, "/fmu/out/vehicle_odometry", odometri,
                          QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
 node.create_subscription(BatteryStatus, "/fmu/out/battery_status_v1", batarya,
                          QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
+def durum(msg):
+    global ucustu, indi
+    if msg.arming_state == VehicleStatus.ARMING_STATE_ARMED:
+        ucustu = True
+    elif ucustu and bitti and msg.arming_state == VehicleStatus.ARMING_STATE_DISARMED:
+        print("Landed and disarmed, mission complete")
+        indi = True
+
+node.create_subscription(VehicleStatus, "/fmu/out/vehicle_status_v1", durum,
+                         QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
 node.create_timer(0.1, her_100ms)
-rclpy.spin(node)
+while rclpy.ok() and not indi:
+    rclpy.spin_once(node, timeout_sec=0.1)

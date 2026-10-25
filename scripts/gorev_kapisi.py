@@ -8,10 +8,10 @@ KOK = os.path.expanduser("~/gorill")
 s = yaml.safe_load(open(f"{KOK}/config/site.yaml"))["sensor"]
 rclpy.init()
 node = rclpy.create_node("gorev_kapisi")
-yeterli_beri, basladi = None, False
+yeterli_beri, basladi, gorev = None, False, None
 
 def isinim(msg):
-    global yeterli_beri, basladi
+    global yeterli_beri, basladi, gorev
     if basladi:
         return
     if msg.data < s["min_irradiance"]:
@@ -26,7 +26,9 @@ def isinim(msg):
         print("Irradiance stable -> starting survey (tarama.py)")
         if os.environ.get("DRY_RUN"):
             return
-        subprocess.Popen(["python3", f"{KOK}/scripts/tarama.py"], cwd=f"{KOK}/scripts")
+        gorev = subprocess.Popen(["python3", f"{KOK}/scripts/tarama.py"], cwd=f"{KOK}/scripts")
 
 node.create_subscription(Float32, "/site/irradiance", isinim, 10)
-rclpy.spin(node)
+while rclpy.ok() and (gorev is None or gorev.poll() is None):   # exit when the survey process ends
+    rclpy.spin_once(node, timeout_sec=0.1)
+print("Survey finished")

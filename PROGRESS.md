@@ -35,3 +35,4 @@
 | 038 | 2026-10-25 | Fault map: `scripts/rapor.py` merges repeated detections (≥ 5 views, 2 m) into faults with row/module numbers → `fault_map.png`, `faults.csv` |
 | 039 | 2026-10-25 | Per-fault loss estimate (assumption model in `config/site.yaml`: 450 W module × 25 % × 1600 kWh/kWp × 3 TL/kWh ≈ 180 kWh, 540 TL per fault per year) |
 | 040 | 2026-10-25 | Automatic PDF inspection report (Turkish, fpdf2): summary, map, fault table, centred fault photos, assumptions/limits — sample in `docs/sample_report/` |
+| 041 | 2026-10-26 | One-command end-to-end demo `scripts/demo.sh`: simulated sensor → irradiance gate → survey → live YOLO detection → PDF; survey script now exits after landing. Tested: 7/7 faults; README rewritten for SunHawk |
