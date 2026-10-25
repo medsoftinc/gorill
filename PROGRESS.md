@@ -32,3 +32,6 @@
 | 035 | 2026-10-25 | *(simulated)* Hardware–software bridge `scripts/sensor_kopru.py`: UDP JSON → ROS 2 `/site/irradiance`, `/site/panel_temp` |
 | 036 | 2026-10-25 | *(simulated)* Mission gate `scripts/gorev_kapisi.py`: survey starts automatically when irradiance ≥ 600 W/m² for 10 s (IEC TS 62446-3); tested end-to-end, drone flew 12/12 |
 | 037 | 2026-10-25 | *(draft, not flashed)* Arduino Nano RP2040 Connect sketch `arduino/ges_sensor/ges_sensor.ino` (reference cell on A0, DS18B20 on D2, WiFiNINA UDP) |
+| 038 | 2026-10-25 | Fault map: `scripts/rapor.py` merges repeated detections (≥ 5 views, 2 m) into faults with row/module numbers → `fault_map.png`, `faults.csv` |
+| 039 | 2026-10-25 | Per-fault loss estimate (assumption model in `config/site.yaml`: 450 W module × 25 % × 1600 kWh/kWp × 3 TL/kWh ≈ 180 kWh, 540 TL per fault per year) |
+| 040 | 2026-10-25 | Automatic PDF inspection report (Turkish, fpdf2): summary, map, fault table, centred fault photos, assumptions/limits — sample in `docs/sample_report/` |
