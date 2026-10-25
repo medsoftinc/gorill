@@ -25,3 +25,5 @@
 | 028 | 2026-10-25 | Reviewed public thermal PV datasets (`docs/datasets.md`); classical colour-threshold baseline `scripts/klasik_tespit.py`; AI venv in box (ultralytics, OpenVINO) |
 | 029 | 2026-10-25 | Training data: 6 more hot-spots + 4 orange ground decoys in `ges_site.sdf`; 3 surveys (5/8/11 m) → 579 frames; auto-labelled to YOLO format by `scripts/etiketle.py` (orange on panel = hotspot, on ground = negative) |
 | 030 | 2026-10-25 | Trained YOLO11n hot-spot detector on laptop CPU (15 epochs, 12 min): val precision 0.98, recall 0.96, mAP50 0.99; Colab notebook `notebooks/train_colab.ipynb` kept for GPU runs |
+| 031 | 2026-10-25 | Exported detector to OpenVINO (FP32 and INT8): 31 → 26 ms/frame on laptop CPU |
+| 032 | 2026-10-25 | Laptop evaluation `scripts/degerlendir.py`: YOLO precision 0.93 / recall 0.98 vs classical 0.63 / 0.98; at 50 % light classical finds 0, YOLO unchanged (`docs/results_module4.md`) |
