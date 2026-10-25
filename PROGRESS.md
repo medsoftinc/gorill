@@ -16,3 +16,4 @@
 | 019 | 2026-10-25 | Solar site world `worlds/ges_site.sdf`: 6 tilted panel rows; flew over them from code and saw panels in the camera |
 | 020 | 2026-10-25 | Hot-spot panel added to solar site world |
 | 021 | 2026-10-25 | Camera image bridged to ROS 2 (`/camera/image`, ~17 Hz) |
+| 022 | 2026-10-25 | Camera recorder node `scripts/kamera_kayit.py`: saves every 10th frame to `data/frames/`; live view with `rqt_image_view` |
