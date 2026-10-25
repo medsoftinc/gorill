@@ -22,3 +22,4 @@
 | 025 | 2026-10-25 | Flew the survey route from code: `scripts/tarama.py` (offboard, 2 m/s, 1 m arrival tolerance, 12/12 waypoints, then RTL) |
 | 026 | 2026-10-25 | Position-tagged survey photos: `kamera_kayit.py` saves a frame every ~2.8 s (70 % overlap from altitude + FOV) with north/east/alt in filename and `frames.csv`; hot-spot seen at N10.0 E-1.8 |
 | 027 | 2026-10-25 | Battery watchdog in `tarama.py`: below 30 % (`config/site.yaml`) the survey stops and the drone returns home (RTL); demo with SIM_BAT_MIN_PCT=20 stopped after 3/12 waypoints |
+| 028 | 2026-10-25 | Reviewed public thermal PV datasets (`docs/datasets.md`); classical colour-threshold baseline `scripts/klasik_tespit.py`; AI venv in box (ultralytics, OpenVINO) |
