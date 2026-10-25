@@ -12,3 +12,5 @@
 | 015 | 2026-10-21 | Fly to a point from code: hover at 5 m, then go 10 m north (`scripts/nokta.py`) |
 | 016 | 2026-10-21 | Search motion from code: hover at 5 m and rotate in place (`scripts/arama.py`) |
 | 017 | 2026-10-21 | Landing from code: take off, hover, then send land command (`scripts/inis.py`) |
+| 018 | 2026-10-25 | Camera drone in simulation: PX4 `x500_mono_cam_down` (downward camera), live image in Gazebo |
+| 019 | 2026-10-25 | Solar site world `worlds/ges_site.sdf`: 6 tilted panel rows; flew over them from code and saw panels in the camera |
