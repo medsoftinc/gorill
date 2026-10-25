@@ -168,5 +168,15 @@
         </collision>
       </link>
     </model>
-  </world>
+      <model name="hotspot_1">
+      <static>true</static>
+      <pose>1 9.983 1.036 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+</world>
 </sdf>
