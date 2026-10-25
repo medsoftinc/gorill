@@ -1,4 +1,5 @@
 import math
+import os
 import rclpy
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleOdometry, BatteryStatus
@@ -12,7 +13,7 @@ hedef_pub = node.create_publisher(TrajectorySetpoint, "/fmu/in/trajectory_setpoi
 komut_pub = node.create_publisher(VehicleCommand, "/fmu/in/vehicle_command", qos)
 
 YUKSEKLIK, HIZ, TOLERANS = site["survey"]["altitude"], site["survey"]["speed"], 1.0
-PIL_SINIRI = site["safety"]["rtl_battery"]
+PIL_SINIRI = float(os.environ.get("RTL_BATTERY", site["safety"]["rtl_battery"]))  # RTL_BATTERY=0 disables the check
 noktalar = [[0.0, 0.0, -YUKSEKLIK]] + rota()   # first climb above home, then the lawnmower route
 sira = 0
 havuc = [0.0, 0.0, -YUKSEKLIK]                  # setpoint that slides toward the waypoint at HIZ m/s

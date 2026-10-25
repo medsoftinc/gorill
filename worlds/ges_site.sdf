@@ -178,5 +178,105 @@
         </visual>
       </link>
     </model>
+    <model name="hotspot_2">
+      <static>true</static>
+      <pose>-6 16.346 1.205 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.7 0.7 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="hotspot_3">
+      <static>true</static>
+      <pose>7 21.620 0.867 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.2 0.8 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="hotspot_4">
+      <static>true</static>
+      <pose>-2 27.983 1.036 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.6 0.6 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="hotspot_5">
+      <static>true</static>
+      <pose>4 34.436 1.247 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.8 0.8 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="hotspot_6">
+      <static>true</static>
+      <pose>-8 39.711 0.909 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="hotspot_7">
+      <static>true</static>
+      <pose>5 40.164 1.121 0.4363 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.5 0.5 0.02</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="orange_crate">
+      <static>true</static>
+      <pose>-4 13 0.25 0 0 0.5</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.8 0.6 0.5</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="orange_box">
+      <static>true</static>
+      <pose>6 25 0.2 0 0 0.5</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.6 0.6 0.4</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="orange_cone">
+      <static>true</static>
+      <pose>-9 31 0.3 0 0 0.5</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.4 0.4 0.6</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
+    <model name="orange_toolbox">
+      <static>true</static>
+      <pose>2 37 0.2 0 0 0.5</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 0.5 0.4</size></box></geometry>
+          <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        </visual>
+      </link>
+    </model>
 </world>
 </sdf>

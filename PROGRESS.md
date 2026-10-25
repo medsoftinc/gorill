@@ -23,3 +23,4 @@
 | 026 | 2026-10-25 | Position-tagged survey photos: `kamera_kayit.py` saves a frame every ~2.8 s (70 % overlap from altitude + FOV) with north/east/alt in filename and `frames.csv`; hot-spot seen at N10.0 E-1.8 |
 | 027 | 2026-10-25 | Battery watchdog in `tarama.py`: below 30 % (`config/site.yaml`) the survey stops and the drone returns home (RTL); demo with SIM_BAT_MIN_PCT=20 stopped after 3/12 waypoints |
 | 028 | 2026-10-25 | Reviewed public thermal PV datasets (`docs/datasets.md`); classical colour-threshold baseline `scripts/klasik_tespit.py`; AI venv in box (ultralytics, OpenVINO) |
+| 029 | 2026-10-25 | Training data: 6 more hot-spots + 4 orange ground decoys in `ges_site.sdf`; 3 surveys (5/8/11 m) → 579 frames; auto-labelled to YOLO format by `scripts/etiketle.py` (orange on panel = hotspot, on ground = negative) |

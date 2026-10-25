@@ -15,7 +15,7 @@ site = yaml.safe_load(open(f"{KOK}/config/site.yaml"))
 # Ground width seen by the camera (along the flight direction) and the frame spacing for the wanted overlap
 s = site["survey"]
 iz_genisligi = 2 * s["altitude"] * math.tan(site["camera"]["hfov_rad"] / 2)
-ARALIK = (1 - s["forward_overlap"]) * iz_genisligi / s["speed"]
+ARALIK = float(os.environ.get("FRAME_EVERY", (1 - s["forward_overlap"]) * iz_genisligi / s["speed"]))
 print(f"Footprint {iz_genisligi:.1f} m -> one frame every {ARALIK:.1f} s")
 
 rclpy.init()

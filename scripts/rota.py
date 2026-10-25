@@ -2,6 +2,8 @@ import json, math, os, yaml
 
 KOK = os.path.expanduser("~/gorill")
 site = yaml.safe_load(open(f"{KOK}/config/site.yaml"))
+if os.environ.get("SURVEY_ALT"):  # optional override, e.g. SURVEY_ALT=10 for extra training data
+    site["survey"]["altitude"] = float(os.environ["SURVEY_ALT"])
 EV_LAT, EV_LON = 47.397971057728974, 8.546163739800146  # ges_site.sdf spherical_coordinates
 
 def rota():
