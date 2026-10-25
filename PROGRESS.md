@@ -28,3 +28,7 @@
 | 031 | 2026-10-25 | Exported detector to OpenVINO (FP32 and INT8): 31 → 26 ms/frame on laptop CPU |
 | 032 | 2026-10-25 | Laptop evaluation `scripts/degerlendir.py`: YOLO precision 0.93 / recall 0.98 vs classical 0.63 / 0.98; at 50 % light classical finds 0, YOLO unchanged (`docs/results_module4.md`) |
 | 033 | 2026-10-25 | ROS 2 detection node `scripts/tespit_dugumu.py`: `/camera/image` → YOLO (OpenVINO INT8, 4.5 Hz) → `/detections` (vision_msgs) + `/camera/annotated`; each detection logged with drone position and estimated ground position. Live survey: all 7 hot-spots found, 0 decoys |
+| 034 | 2026-10-25 | *(simulated)* Ground-station sensor `scripts/sensor_sim.py`: sends the Arduino's UDP JSON (irradiance, panel temp) over WiFi, morning-sun ramp 300 → 900 W/m² |
+| 035 | 2026-10-25 | *(simulated)* Hardware–software bridge `scripts/sensor_kopru.py`: UDP JSON → ROS 2 `/site/irradiance`, `/site/panel_temp` |
+| 036 | 2026-10-25 | *(simulated)* Mission gate `scripts/gorev_kapisi.py`: survey starts automatically when irradiance ≥ 600 W/m² for 10 s (IEC TS 62446-3); tested end-to-end, drone flew 12/12 |
+| 037 | 2026-10-25 | *(draft, not flashed)* Arduino Nano RP2040 Connect sketch `arduino/ges_sensor/ges_sensor.ino` (reference cell on A0, DS18B20 on D2, WiFiNINA UDP) |

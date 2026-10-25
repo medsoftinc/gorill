@@ -21,3 +21,14 @@ camera:              # PX4 mono_cam: 1280x960, horizontal FOV 1.74 rad
   height: 960
 safety:
   rtl_battery: 0.30  # go home when battery drops below 30 % (PX4's own failsafe acts much later, at 7 %)
+modules:
+  per_row: 20        # 20 modules of ~1 m along each 20 m row (module 1 = west end)
+loss_model:          # simple assumption model for the report, NOT a measured value
+  module_power_w: 450
+  hotspot_loss: 0.25           # share of a module's output lost to one hot-spot
+  specific_yield_kwh_per_kwp: 1600   # yearly yield, southern Turkey
+  price_tl_per_kwh: 3.0
+sensor:              # ground station (Arduino) -> laptop over WiFi, UDP JSON
+  udp_port: 5005
+  min_irradiance: 600   # W/m², IEC TS 62446-3 minimum for thermography
+  stable_seconds: 10
