@@ -27,3 +27,4 @@
 | 030 | 2026-10-25 | Trained YOLO11n hot-spot detector on laptop CPU (15 epochs, 12 min): val precision 0.98, recall 0.96, mAP50 0.99; Colab notebook `notebooks/train_colab.ipynb` kept for GPU runs |
 | 031 | 2026-10-25 | Exported detector to OpenVINO (FP32 and INT8): 31 → 26 ms/frame on laptop CPU |
 | 032 | 2026-10-25 | Laptop evaluation `scripts/degerlendir.py`: YOLO precision 0.93 / recall 0.98 vs classical 0.63 / 0.98; at 50 % light classical finds 0, YOLO unchanged (`docs/results_module4.md`) |
+| 033 | 2026-10-25 | ROS 2 detection node `scripts/tespit_dugumu.py`: `/camera/image` → YOLO (OpenVINO INT8, 4.5 Hz) → `/detections` (vision_msgs) + `/camera/annotated`; each detection logged with drone position and estimated ground position. Live survey: all 7 hot-spots found, 0 decoys |
