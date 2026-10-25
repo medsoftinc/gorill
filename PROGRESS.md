@@ -19,3 +19,4 @@
 | 022 | 2026-10-25 | Camera recorder node `scripts/kamera_kayit.py`: saves every 10th frame to `data/frames/`; live view with `rqt_image_view` |
 | 023 | 2026-10-25 | Site described as data: `config/site.yaml` (boundary, panel rows, survey altitude/speed, camera FOV) |
 | 024 | 2026-10-25 | Lawnmower route generator `scripts/rota.py` → `missions/ges_tarama.plan` (QGC) + route image |
+| 025 | 2026-10-25 | Flew the survey route from code: `scripts/tarama.py` (offboard, 2 m/s, 1 m arrival tolerance, 12/12 waypoints, then RTL) |
