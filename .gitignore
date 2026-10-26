@@ -3,3 +3,4 @@ install/
 log/
 data/
 models/
+arduino/**/arduino_secrets.h
