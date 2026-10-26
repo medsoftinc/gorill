@@ -25,7 +25,7 @@ PX4 v1.17 · Gazebo Harmonic · ROS 2 Jazzy · Micro XRCE-DDS · QGroundControl 
 - [x] Module 3: Site as data, lawnmower route (+ QGC plan), survey flight, position-tagged photos, battery RTL
 - [x] Module 4: AI fault detection: classical baseline, auto-labelled sim dataset, YOLO11n training, OpenVINO, ROS 2 detection node
 - [~] Module 5: Ground sensor → automatic mission start: software done with a simulated sensor; Arduino sketch drafted, not flashed
-- [x] Module 6: Report engine: fault map, loss estimate, automatic PDF; one-command demo `scripts/demo.sh`
+- [x] Module 6: Report engine: fault map, loss estimate, automatic PDF; one-command demo `scripts/demo.sh`; live panel; simulated thermal camera
 - [ ] Module 7–9: Real hardware (Holybro X500 v2 + Pixhawk 6C, Jetson Orin Nano, thermal camera), field test
 
 Step-by-step log: [`PROGRESS.md`](PROGRESS.md).
@@ -42,8 +42,10 @@ Details: [`docs/results_module4.md`](docs/results_module4.md), sample report: [`
 ## How to run
 All commands run inside the Distrobox box `px4` (Ubuntu 24.04); AI code uses the venv `~/venvs/ai`.
 1. Simulation (host terminal): `px4ges` → starts Agent, camera bridge and PX4 + Gazebo with the `ges_site` world.
-2. Full demo: `~/gorill/scripts/demo.sh` → simulated sensor, gate, survey flight, live detection, PDF in `data/report/`.
-3. Pieces on their own:
+2. Full demo: `~/gorill/scripts/demo.sh` → simulated sensor, gate, survey flight, live detection, PDF in `data/report/`;
+   the view-only live panel opens at http://localhost:8080 (RGB + thermal view, map, faults). Flight control stays in QGC.
+3. Desk thermal kit (MLX90640 + Arduino): `~/gorill/scripts/kit.sh` (or `kit.sh mock` without hardware), see [`docs/masa_seti.md`](docs/masa_seti.md).
+4. Pieces on their own:
    - `python3 scripts/rota.py`: route + QGC plan (`missions/ges_tarama.plan`)
    - `python3 scripts/tarama.py`: fly the survey
    - `~/venvs/ai/bin/python scripts/tespit_dugumu.py`: detection node (view `/camera/annotated` in `rqt_image_view`)
@@ -51,7 +53,7 @@ All commands run inside the Distrobox box `px4` (Ubuntu 24.04); AI code uses the
    - Training data and model: `scripts/etiketle.py`, `notebooks/train_colab.ipynb`, `scripts/degerlendir.py`
 
 ## Limitations (honest)
-- The Gazebo camera is RGB, not radiometric thermal. The sim model proves the pipeline; a field model must be trained on real thermal data (see [`docs/datasets.md`](docs/datasets.md)).
+- The simulated thermal camera shows temperatures we assign to objects, not real heat physics; the RGB detector is trained on RGB frames. The sim model proves the pipeline; a field model must be trained on real thermal data (see [`docs/datasets.md`](docs/datasets.md)).
 - The dataset is small and synthetic, and labels come from sim knowledge.
 - The loss estimate is an assumption model (module power × hot-spot loss share × yearly yield × price), not a measurement.
 - Ground positions assume level flight; detections seen in fewer than 5 frames are dropped.
