@@ -1,8 +1,11 @@
 #!/bin/bash
+# Clean start: stop any old PX4, Gazebo, Agent and bridge (also orphans from a crashed run)
+pkill -f "[b]in/px4"
 pkill -f "[M]icroXRCEAgent"
 pkill -f "[p]arameter_bridge"
 pkill -9 -f "[g]z sim"
-sleep 1
+sleep 2
+pkill -9 -f "[b]in/px4"
 MicroXRCEAgent udp4 -p 8888 > /tmp/xrce_agent.log 2>&1 &
 M=/world/ges_site/model/x500_dual_cam_down_0/link
 CAM=$M/camera_link/sensor/imager/image

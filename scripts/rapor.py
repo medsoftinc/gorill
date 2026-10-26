@@ -10,7 +10,7 @@ site = yaml.safe_load(open(f"{KOK}/config/site.yaml"))
 CIKTI = f"{KOK}/data/report"
 os.makedirs(CIKTI, exist_ok=True)
 BIRLESTIR = 2.0   # detections closer than this (m) are the same fault
-MIN_GORUNTU = 5   # a real fault is seen in many overlapping frames; fewer views = noise (e.g. while turning)
+MIN_GORUNTU = 10  # a real fault is seen in many overlapping frames; fewer views = noise (e.g. while turning)
 
 def arizalar(dosya=f"{KOK}/data/detections/detections.csv"):
     """Group repeated detections of the same spot into one fault (overlapping photos see it many times)."""

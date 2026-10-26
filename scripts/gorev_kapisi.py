@@ -29,6 +29,10 @@ def isinim(msg):
         gorev = subprocess.Popen(["python3", f"{KOK}/scripts/tarama.py"], cwd=f"{KOK}/scripts")
 
 node.create_subscription(Float32, "/site/irradiance", isinim, 10)
-while rclpy.ok() and (gorev is None or gorev.poll() is None):   # exit when the survey process ends
-    rclpy.spin_once(node, timeout_sec=0.1)
-print("Survey finished")
+try:
+    while rclpy.ok() and (gorev is None or gorev.poll() is None):   # exit when the survey process ends
+        rclpy.spin_once(node, timeout_sec=0.1)
+    print("Survey finished")
+finally:
+    if gorev and gorev.poll() is None:   # stopped early (Ctrl+C / timeout): don't leave the flight script running
+        gorev.terminate()

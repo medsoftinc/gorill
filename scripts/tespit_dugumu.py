@@ -8,7 +8,7 @@ import yaml
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
-from px4_msgs.msg import VehicleOdometry
+from px4_msgs.msg import VehicleOdometry, VehicleStatus
 from ultralytics import YOLO
 
 KOK = os.path.expanduser("~/gorill")
@@ -27,13 +27,26 @@ node = rclpy.create_node("tespit_dugumu")
 model = YOLO(MODEL, task="detect")
 tespit_pub = node.create_publisher(Detection2DArray, "/detections", 10)
 resim_pub = node.create_publisher(Image, "/camera/annotated", 10)
-konum, yaw, son = None, 0.0, 0.0
+konum, yaw, egim, son = None, 0.0, 0.0, 0.0
+taramada = False   # geolocate only in survey mode, at survey altitude and level: otherwise the position is wrong
 
 def odometri(msg):
     global konum, yaw
     konum = [float(v) for v in msg.position]
+    global egim
     w, x, y, z = msg.q
     yaw = math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z))
+    roll = math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y))
+    pitch = math.asin(max(-1.0, min(1.0, 2 * (w * y - z * x))))
+    egim = math.degrees(max(abs(roll), abs(pitch)))
+
+def arac_durumu(msg):
+    global taramada
+    taramada = msg.nav_state == VehicleStatus.NAVIGATION_STATE_OFFBOARD
+
+def konum_guvenilir():
+    yukseklik_ok = abs(-konum[2] - float(os.environ.get("SURVEY_ALT", site["survey"]["altitude"]))) < 1.5
+    return taramada and yukseklik_ok and egim < 6.0
 
 def yer_konumu(u, v, W, H):
     # pixel -> ground (north, east): image up = drone forward, image right = drone right
@@ -62,8 +75,9 @@ def goruntu_geldi(msg):
         h.hypothesis.class_id, h.hypothesis.score = "hotspot", guven
         d.results.append(h)
         dizi.detections.append(d)
-        yazici.writerow([f"{time.time():.2f}", f"{guven:.2f}", round(konum[0], 2), round(konum[1], 2),
-                         round(-konum[2], 2), round(kuzey, 2), round(dogu, 2), resim_adi])
+        if konum_guvenilir():
+            yazici.writerow([f"{time.time():.2f}", f"{guven:.2f}", round(konum[0], 2), round(konum[1], 2),
+                             round(-konum[2], 2), round(kuzey, 2), round(dogu, 2), resim_adi])
         cv2.rectangle(kare, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 4)
         cv2.putText(kare, f"hotspot {guven:.2f} N{kuzey:.1f} E{dogu:.1f}", (int(x1), max(int(y1) - 10, 20)),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2)
@@ -76,6 +90,8 @@ def goruntu_geldi(msg):
         print(f"{len(dizi.detections)} hotspot  drone N{konum[0]:.1f} E{konum[1]:.1f}")
 
 node.create_subscription(VehicleOdometry, "/fmu/out/vehicle_odometry", odometri,
+                         QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
+node.create_subscription(VehicleStatus, "/fmu/out/vehicle_status_v1", arac_durumu,
                          QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
 node.create_subscription(Image, "/camera/image", goruntu_geldi, 1)
 print("Detection node ready, model:", MODEL)

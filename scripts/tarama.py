@@ -52,7 +52,7 @@ def her_100ms():
         havuc[i] = hedef[i] if mesafe <= adim else havuc[i] + fark[i] / mesafe * adim
     mod_pub.publish(OffboardControlMode(position=True, timestamp=zaman()))
     hedef_pub.publish(TrajectorySetpoint(position=havuc, yaw=0.0, timestamp=zaman()))
-    if sayac == 10:
+    if not ucustu and sayac >= 10 and sayac % 10 == 0:   # retry every second until PX4 accepts
         komut(VehicleCommand.VEHICLE_CMD_DO_SET_MODE, 1.0, 6.0)
         komut(VehicleCommand.VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0)
         print("Offboard + arm komutu gonderildi")
