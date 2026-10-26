@@ -40,7 +40,20 @@ BH1750 ışık sensörü **almıyoruz**: en fazla ~65.000 lux ölçebiliyor, tam
 - Panelin (−) ucu Arduino GND'sine bağlanmalı, yoksa INA219 gerilimi yanlış ölçer.
 - Panel gerilimi Arduino'ya **asla doğrudan** bağlanmaz; sadece INA219 üzerinden.
 
-## 3. İlk gün testleri (her biri tek başına, sonra hepsi birlikte)
+## 3. Derleme ve yükleme
+
+Kod laptopta derleniyor (2026-10-26: hatasız; program 125.593 bayt, RAM %20).
+Kütüphaneler: WiFiNINA 2.1.1, Adafruit MLX90640 1.1.2, Adafruit INA219 1.2.3, OneWire 2.3.8, DallasTemperature 4.0.6.
+
+```bash
+cd ~/gorill/arduino/ges_kit && cp -n arduino_secrets.h.example arduino_secrets.h
+~/.local/bin/arduino-cli compile --fqbn arduino:mbed_nano:nanorp2040connect .
+~/.local/bin/arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:mbed_nano:nanorp2040connect .
+~/.local/bin/arduino-cli monitor -p /dev/ttyACM0 -c baudrate=115200
+```
+Yüklemeden önce `arduino_secrets.h` içine WiFi adını, şifresini ve laptop IP'sini yaz.
+
+## 4. İlk gün testleri (her biri tek başına, sonra hepsi birlikte)
 
 Arduino'yu USB ile laptopa bağla, `arduino/ges_kit` kodunu yükle, Serial Monitor'ü 115200 baud ile aç.
 
@@ -58,7 +71,7 @@ Arduino'yu USB ile laptopa bağla, `arduino/ges_kit` kodunu yükle, Serial Monit
 
 Donanım gelmeden yazılımı denemek için: `~/gorill/scripts/kit.sh mock` (sahte Arduino, aynı veriyi yollar).
 
-## 4. Güvenlik ve ölçüm notları
+## 5. Güvenlik ve ölçüm notları
 
 - Gölgelenen hücre **80 °C'nin üstüne** çıkabilir: dokunma, uzun süre gölgede bırakma (en fazla birkaç dakika).
 - 10 Ω yük direnci ısınır: yanıcı yüzeye koyma.
