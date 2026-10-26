@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SunHawk Canlı Panel</title>
+<style>
+  :root { --bg:#0f1419; --card:#1a2029; --line:#2c3440; --text:#e6e9ee; --muted:#8b95a3; --ok:#3fb950; --warn:#d29922; --bad:#f85149; --blue:#58a6ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px system-ui, sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:18px; align-items:center; padding:10px 16px; background:var(--card); border-bottom:1px solid var(--line); }
+  header h1 { font-size:17px; margin:0 12px 0 0; }
+  .stat { color:var(--muted); } .stat b { color:var(--text); font-variant-numeric:tabular-nums; }
+  main { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; padding:12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px; min-width:0; }
+  .card h2 { font-size:13px; font-weight:600; color:var(--muted); margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em; }
+  img, canvas { width:100%; display:block; border-radius:4px; background:#000; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+  th, td { padding:5px 8px; border-bottom:1px solid var(--line); text-align:left; }
+  th { color:var(--muted); font-weight:500; }
+  .wide { grid-column: 1 / -1; }
+  .pill { padding:2px 8px; border-radius:10px; background:var(--line); }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>SunHawk · Canlı İzleme</h1>
+  <span class="stat">Mod: <b id="mode" class="pill">-</b></span>
+  <span class="stat">Pil: <b id="bat">-</b></span>
+  <span class="stat">Yükseklik: <b id="alt">-</b></span>
+  <span class="stat">Hız: <b id="spd">-</b></span>
+  <span class="stat">Termal maks: <b id="tmax">-</b></span>
+  <span class="stat">Güneş: <b id="irr">-</b></span>
+  <span class="stat">Panel: <b id="tp">-</b></span>
+  <span class="stat">Güç: <b id="pw">-</b></span>
+  <span class="stat">Arıza: <b id="nf">0</b></span>
+  <span class="stat">Tahmini kayıp: <b id="loss">0 TL/yıl</b></span>
+</header>
+<main>
+  <section class="card"><h2>Saha haritası</h2><canvas id="map" width="600" height="600"></canvas></section>
+  <section class="card"><h2>Kamera + yapay zekâ</h2><img src="/rgb" alt="RGB kamera"></section>
+  <section class="card"><h2>Termal kamera</h2><img src="/thermal" alt="Termal kamera"></section>
+  <section class="card wide"><h2>Bulunan arızalar</h2>
+    <table><thead><tr><th>ID</th><th>Sıra</th><th>Modül</th><th>Kuzey (m)</th><th>Doğu (m)</th><th>Görüntü</th><th>Güven</th><th>kWh/yıl</th><th>TL/yıl</th></tr></thead>
+    <tbody id="faults"><tr><td colspan="9" style="color:var(--muted)">Henüz arıza yok</td></tr></tbody></table>
+  </section>
+</main>
+<script>
+let site = null;
+const cv = document.getElementById("map"), ctx = cv.getContext("2d");
+// map frame: east -16..16 m (x), north -4..46 m (y)
+const X = e => (e + 16) / 32 * cv.width, Y = n => cv.height - (n + 4) / 50 * cv.height;
+
+function draw(s) {
+  ctx.fillStyle = "#11161c"; ctx.fillRect(0, 0, cv.width, cv.height);
+  if (!site) return;
+  const r = site.rows;
+  ctx.fillStyle = "rgba(88,166,255,.35)";
+  r.north.forEach((n, i) => {
+    ctx.fillRect(X(r.east_start), Y(n + 1), X(r.east_end) - X(r.east_start), Y(n - 1) - Y(n + 1));
+    ctx.fillStyle = "#8b95a3"; ctx.font = "12px system-ui"; ctx.fillText("Sıra " + (i + 1), 4, Y(n) + 4);
+    ctx.fillStyle = "rgba(88,166,255,.35)";
+  });
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = "#444c56"; ctx.beginPath();
+  ctx.moveTo(X(0), Y(0)); site.route.forEach(p => ctx.lineTo(X(p[1]), Y(p[0]))); ctx.stroke(); ctx.setLineDash([]);
+  ctx.strokeStyle = "#d29922"; ctx.lineWidth = 2; ctx.beginPath();
+  s.track.forEach((p, i) => i ? ctx.lineTo(X(p[1]), Y(p[0])) : ctx.moveTo(X(p[1]), Y(p[0]))); ctx.stroke(); ctx.lineWidth = 1;
+  s.faults.forEach(f => {
+    ctx.fillStyle = "#f85149"; ctx.beginPath(); ctx.arc(X(f.east), Y(f.north), 6, 0, 7); ctx.fill();
+    ctx.fillStyle = "#ffb4ae"; ctx.fillText(f.id, X(f.east) + 8, Y(f.north) - 6);
+  });
+  ctx.fillStyle = "#e6e9ee"; ctx.beginPath(); ctx.moveTo(X(0), Y(0) - 7); ctx.lineTo(X(0) - 6, Y(0) + 5); ctx.lineTo(X(0) + 6, Y(0) + 5); ctx.fill();
+  ctx.fillStyle = "#3fb950"; ctx.beginPath(); ctx.arc(X(s.east), Y(s.north), 7, 0, 7); ctx.fill();
+}
+
+async function tick() {
+  try {
+    const s = await (await fetch("/state")).json();
+    document.getElementById("mode").textContent = s.armed ? s.mode : "Yerde";
+    document.getElementById("bat").textContent = s.battery == null ? "-" : s.battery + " %";
+    document.getElementById("alt").textContent = s.alt.toFixed(1) + " m";
+    document.getElementById("spd").textContent = s.speed.toFixed(1) + " m/s";
+    document.getElementById("tmax").textContent = s.thermal_max == null ? "-" : s.thermal_max + " °C";
+    const g = s.sensors;
+    document.getElementById("irr").textContent = g ? g.irr + " W/m²" : "-";
+    document.getElementById("tp").textContent = g ? g.t_panel.toFixed(1) + " °C" : "-";
+    document.getElementById("pw").textContent = g && g.p !== undefined ? g.p.toFixed(1) + " W" : "-";
+    document.getElementById("nf").textContent = s.faults.length;
+    document.getElementById("loss").textContent = s.faults.reduce((a, f) => a + f.loss_tl, 0).toLocaleString("tr-TR") + " TL/yıl";
+    document.getElementById("faults").innerHTML = s.faults.length ? s.faults.map(f =>
+      `<tr><td>${f.id}</td><td>${f.row}</td><td>${f.module}</td><td>${f.north}</td><td>${f.east}</td><td>${f.views}</td><td>${f.conf}</td><td>${f.loss_kwh}</td><td>${f.loss_tl}</td></tr>`).join("")
+      : '<tr><td colspan="9" style="color:var(--muted)">Henüz arıza yok</td></tr>';
+    draw(s);
+  } catch (e) { /* panel server restarting */ }
+}
+fetch("/site").then(r => r.json()).then(j => { site = j; });
+setInterval(tick, 500);
+</script>
+</body>
+</html>
