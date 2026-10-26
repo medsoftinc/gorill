@@ -8,7 +8,10 @@
     </physics>
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type="adiabatic"/>
+    <atmosphere type="adiabatic">
+      <temperature>303.15</temperature>  <!-- ambient / ground / decoys ~30 °C -->
+      <temperature_gradient>0</temperature_gradient>
+    </atmosphere>
     <scene>
       <grid>false</grid>
       <ambient>0.4 0.4 0.4 1</ambient>
@@ -97,6 +100,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -110,6 +114,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -123,6 +128,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -136,6 +142,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -149,6 +156,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -162,6 +170,7 @@
         <visual name="visual">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
           <material><ambient>0.05 0.1 0.3 1</ambient><diffuse>0.05 0.1 0.35 1</diffuse><specular>0.4 0.4 0.4 1</specular></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>318.15</temperature></plugin>
         </visual>
         <collision name="collision">
           <geometry><box><size>20 2.2 0.05</size></box></geometry>
@@ -175,6 +184,7 @@
         <visual name="visual">
           <geometry><box><size>1.0 1.0 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -185,6 +195,7 @@
         <visual name="visual">
           <geometry><box><size>0.7 0.7 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -195,6 +206,7 @@
         <visual name="visual">
           <geometry><box><size>1.2 0.8 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -205,6 +217,7 @@
         <visual name="visual">
           <geometry><box><size>0.6 0.6 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -215,6 +228,7 @@
         <visual name="visual">
           <geometry><box><size>0.8 0.8 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -225,6 +239,7 @@
         <visual name="visual">
           <geometry><box><size>1.0 1.0 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>
@@ -235,6 +250,7 @@
         <visual name="visual">
           <geometry><box><size>0.5 0.5 0.02</size></box></geometry>
           <material><ambient>1 0.45 0 1</ambient><diffuse>1 0.45 0 1</diffuse><emissive>0.6 0.2 0 1</emissive></material>
+        <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal"><temperature>348.15</temperature></plugin>
         </visual>
       </link>
     </model>

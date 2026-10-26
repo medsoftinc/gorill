@@ -36,3 +36,4 @@
 | 039 | 2026-10-25 | Per-fault loss estimate (assumption model in `config/site.yaml`: 450 W module × 25 % × 1600 kWh/kWp × 3 TL/kWh ≈ 180 kWh, 540 TL per fault per year) |
 | 040 | 2026-10-25 | Automatic PDF inspection report (Turkish, fpdf2): summary, map, fault table, centred fault photos, assumptions/limits — sample in `docs/sample_report/` |
 | 041 | 2026-10-26 | One-command end-to-end demo `scripts/demo.sh`: simulated sensor → irradiance gate → survey → live YOLO detection → PDF; survey script now exits after landing. Tested: 7/7 faults; README rewritten for SunHawk |
+| 042 | 2026-10-26 | Simulated thermal camera: drone model `gz_models/x500_dual_cam_down` (RGB + 320×256 thermal, 55° like the MLX90640 D55); temperatures in `ges_site.sdf` (panels 45 °C, hot-spots 75 °C, ground/decoys 30 °C); bridged to `/thermal/raw` (mono16, K×100). PX4 started directly with airframe 4014 (no rebuild) |
